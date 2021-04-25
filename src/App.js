@@ -22,9 +22,9 @@ export default function App() {
     setisLoading(true);
 
     fetchImages({ searchQuery, currentPage })
-      .then(({ hits, total }) => {
+      .then(({ hits }) => {
         setimages(prevImages => [...prevImages, ...hits]);
-        // setTotal(total);
+        setTotal(null);
 
         if (currentPage !== 1) {
           window.scrollTo({
