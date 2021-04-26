@@ -9,13 +9,12 @@ import Button from './components/Button';
 import Modal from './components/Modal';
 
 export default function App() {
-  const [images, setimages] = useState([]);
+  const [images, setImages] = useState([]);
   const [currentPage, setcurrentPage] = useState(1);
   const [searchQuery, setsearchQuery] = useState('');
   const [isLoading, setisLoading] = useState(false);
   const [showModal, setshowModal] = useState(false);
   const [largeImage, setlargeImage] = useState(null);
-  const [total, setTotal] = useState(null);
 
   useEffect(() => {
     if (!searchQuery) return;
@@ -23,8 +22,7 @@ export default function App() {
 
     fetchImages({ searchQuery, currentPage })
       .then(({ hits }) => {
-        setimages(prevImages => [...prevImages, ...hits]);
-        setTotal(null);
+        setImages(prevImages => [...prevImages, ...hits]);
 
         if (currentPage !== 1) {
           window.scrollTo({
@@ -35,12 +33,13 @@ export default function App() {
       })
       .catch(error => toast.error('Oops, something wrong. Please, try again'))
       .finally(() => setisLoading(false));
-  }, [searchQuery, currentPage, total]);
+    console.log(`nhfhfhhffhfhfhfhhfhhfh`);
+  }, [searchQuery, currentPage]);
 
   const onChangeQuery = query => {
     setsearchQuery(query);
     setcurrentPage(1);
-    setimages([]);
+    setImages([]);
   };
 
   const increasePage = () => {
@@ -48,16 +47,16 @@ export default function App() {
   };
 
   const showImageModal = url => {
+    console.log(url);
     setlargeImage(url);
     toggleModal();
   };
 
   const toggleModal = () => {
-    setshowModal(!showModal);
+    setshowModal(prevShowModal => !prevShowModal);
   };
 
-  const shouldLoadMoreBtn =
-    images.length > 0 && images.length < total && !isLoading;
+  const shouldLoadMoreBtn = images.length > 0 && !isLoading;
 
   return (
     <div className="App">
